@@ -10,7 +10,6 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    // Recuperar las tareas del almacenamiento local al cargar la página
     const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
     setTasks(savedTasks);
   }, []);
