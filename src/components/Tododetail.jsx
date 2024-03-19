@@ -1,7 +1,13 @@
+
 import { useState } from 'react';
-import {Link} from 'react-router-dom'
-export const Tododetail = ({ tasks, deleteTask }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { deleteTask, toggleTaskStatus } from './Slice';
+
+const Tododetail = () => {
+  const tasks = useSelector(state => state.todos.tasks);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const dispatch = useDispatch();
 
   const handleCheckboxChange = taskId => {
     if (completedTasks.includes(taskId)) {
@@ -9,6 +15,7 @@ export const Tododetail = ({ tasks, deleteTask }) => {
     } else {
       setCompletedTasks([...completedTasks, taskId]);
     }
+    dispatch(toggleTaskStatus(taskId));
   };
 
   return (
@@ -27,22 +34,21 @@ export const Tododetail = ({ tasks, deleteTask }) => {
           </div>
 
           <div>
-          <label className='completada'>
+            <label className='completada'>
               Completada:
-              <input type="checkbox" checked={completedTasks.includes(task.id)}onChange={() => handleCheckboxChange(task.id)}/>
+              <input type="checkbox" checked={task.completed} onChange={() => handleCheckboxChange(task.id)} />
             </label>
-            </div>
-
-            <div>
-          <button className='eliminar' onClick={() => deleteTask(task.id)}>Eliminar</button>
-          <hr />
           </div>
 
+          <div>
+            <button className='eliminar' onClick={() => dispatch(deleteTask(task.id))}>Eliminar</button>
+            <hr />
+          </div>
         </div>
       ))}
-        <div>
-          <Link className='volver' to="/">TO DO list</Link>
-        </div>
+      <div>
+        <Link className='volver' to="/">TO DO list</Link>
+      </div>
     </div>
   );
 };

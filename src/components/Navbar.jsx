@@ -7,6 +7,7 @@ const Navbar = () => {
         <Link to='/'> </Link>
         <Link to='/newtodo'> </Link>
         <Link to='/tododetail'></Link>
+        
     </nav>
   );
 };
